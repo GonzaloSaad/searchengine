@@ -43,14 +43,23 @@ public class InternalFoldersManagement {
     }
 
     private void delete(File f) throws IOException {
-        if (f.isDirectory()) {
-            logger.info("Cleaning [{}]", f.getName());
-            for (File c : f.listFiles())
-                delete(c);
-        } else {
-            if (!f.delete()) {
-                throw new FileNotFoundException("Failed to delete file: " + f);
+
+        if (f.exists()) {
+            if (f.isDirectory()) {
+                logger.info("Cleaning [{}]", f.getName());
+                for (File c : f.listFiles()) {
+                    delete(c);
+                }
+            } else {
+                if (!f.delete()) {
+                    throw new FileNotFoundException("Failed to delete file: " + f);
+                }
             }
+
+        } else {
+            f.getParentFile().mkdirs();
+            f.mkdir();
         }
+
     }
 }
