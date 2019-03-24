@@ -19,6 +19,8 @@ public class IntermediateCache extends Cache {
 
     @Override
     public Map<String, PostList> getPostPack(int file) {
+
+        // TODO: Refactor here - 6. Hint: .map() in Optional.
         CachedPostPack c = get(file);
 
         if (c == null) {

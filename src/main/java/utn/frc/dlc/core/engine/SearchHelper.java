@@ -84,6 +84,7 @@ public class SearchHelper {
 
         for (VocabularyEntry ve : terms) {
 
+            // TODO: Refactor here - 2. Hint: .isPresent() in Optional.
             PostList pl = getPostList(ve);
             if (pl == null) {
                 continue;
@@ -94,6 +95,7 @@ public class SearchHelper {
 
             for (PostListItem pli : pl.getListOfDocument()) {
 
+                // TODO: Refactor here - 3. Hint: .computeIfAbsent() in Map.
                 DocumentResult dr = docMap.get(pli.getDocID());
                 if (dr == null) {
                     dr = new DocumentResult(pli.getDocID());
