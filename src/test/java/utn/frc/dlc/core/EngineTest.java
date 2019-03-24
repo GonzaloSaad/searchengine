@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -21,7 +20,7 @@ public class EngineTest {
 
         String pathOfFile;
 
-        if(smallSet){
+        if (smallSet) {
             pathOfFile = "./documents/smallset";
         } else {
             pathOfFile = "./documents/bigset";
@@ -31,13 +30,8 @@ public class EngineTest {
         controller.runIndexation(pathOfFile);
 
 
-        Map<String, Integer> wordsAndFrequency = getMapForWords(smallSet);
-
-        for(String word: wordsAndFrequency.keySet()){
-            Integer expectedAmountOfDocuments = wordsAndFrequency.get(word);
-            List<Document> documentsForQuery = controller.getDocumentsForQuery(word);
-            assertEquals(expectedAmountOfDocuments.intValue(), documentsForQuery.size());
-        }
+        getMapForWords(smallSet).forEach((word, expected) ->
+                assertEquals(expected.intValue(), controller.getDocumentsForQuery(word).size()));
 
     }
 
