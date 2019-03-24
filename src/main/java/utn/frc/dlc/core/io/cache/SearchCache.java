@@ -53,7 +53,7 @@ public class SearchCache extends Cache {
 
     private CachedPostPack getPostPackFromStorage(int file) {
 
-        // TODO: Refactor here - 7. Hint: .ofNullable(), .map() and .orElseThrow() in Optional.
+        // TODO: Refactor here - 4. Hint: .ofNullable(), .map() and .orElseThrow() in Optional.
         Map<String, PostList> postPack = PostPackManagement.getInstance().getPostPack(file);
         if (postPack == null) {
             throw new IllegalStateException("The file was not found! Inconsistency in the model!");

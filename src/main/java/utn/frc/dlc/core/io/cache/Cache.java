@@ -43,7 +43,7 @@ public abstract class Cache {
 
         List<Map<String, PostList>> list = new ArrayList<>();
 
-        // TODO: Refactor here - 5. Hint: .ifPresent() in Optional.
+        // TODO: Refactor here - 2. Hint: .ifPresent() in Optional.
         for (CachedPostPack c : cache) {
             if (c != null) {
                 list.add(c.getPostPack());

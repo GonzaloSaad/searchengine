@@ -75,8 +75,6 @@ public class IndexHelper {
     public VocabularyEntry getVocabularyEntryForTerm(String term) {
 
 
-        // TODO: Refactor here - 1. Hint: .computeIfAbsent() in Map.
-
         VocabularyEntry ve = engineModel.getFromVocabulary(term);
 
         if (ve == null) {
