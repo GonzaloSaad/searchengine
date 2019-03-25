@@ -15,7 +15,7 @@ import java.util.Iterator;
  */
 public class FolderFileList implements Iterable<File> {
 
-    // TODO: Refactor here - 4. Hint: Functional Interface anonymous call can be replaced with lambda.
+    // TODO: Refactor here - 2. Hint: Functional Interface anonymous call can be replaced with lambda.
     FilenameFilter fileFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
             return name.toLowerCase().endsWith(".txt");
