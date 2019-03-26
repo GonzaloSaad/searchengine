@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -85,24 +86,32 @@ public class SearchHelper {
         for (VocabularyEntry ve : terms) {
 
             // TODO: Refactor here - 1. Hint: .isPresent() in Optional.
-            PostList pl = getPostList(ve);
+            /*PostList pl = getPostList(ve);
             if (pl == null) {
                 continue;
-            }
+            }*/
 
-            int Nr = ve.getNr();
-            double idf = Math.log((double) N / (double) Nr);
+            // This can be enhanced!
 
-            for (PostListItem pli : pl.getListOfDocument()) {
+            Optional<PostList> p1 = getPostList(ve);
 
-                DocumentResult dr = docMap.get(pli.getDocID());
-                if (dr == null) {
-                    dr = new DocumentResult(pli.getDocID());
-                    docMap.put(dr.getDocID(), dr);
+            if(p1.isPresent()){
+                int Nr = ve.getNr();
+                double idf = Math.log((double) N / (double) Nr);
+
+                for (PostListItem pli : p1.get().getListOfDocument()) {
+
+                    DocumentResult dr = docMap.get(pli.getDocID());
+                    if (dr == null) {
+                        dr = new DocumentResult(pli.getDocID());
+                        docMap.put(dr.getDocID(), dr);
+                    }
+                    double valueOfTermInDoc = pli.getTf() * idf;
+                    dr.addToValue(valueOfTermInDoc);
                 }
-                double valueOfTermInDoc = pli.getTf() * idf;
-                dr.addToValue(valueOfTermInDoc);
+
             }
+
         }
 
         Set<DocumentResult> orderedDocuments = new TreeSet<>(new DocumentResultComparator());
@@ -112,16 +121,19 @@ public class SearchHelper {
 
     }
 
-    private PostList getPostList(VocabularyEntry ve) {
+    private Optional<PostList> getPostList(VocabularyEntry ve) {
 
 
-        Map<String, PostList> postPack = cache.getPostPack(ve.getPostFile());
+        /*Map<String, PostList> postPack = cache.getPostPack(ve.getPostFile());
 
         if (postPack == null) {
             return null;
         }
 
-        return postPack.get(ve.getTerm());
+        return postPack.get(ve.getTerm());*/
+
+        return cache.getPostPack(ve.getPostFile())
+                .map(postPack -> postPack.get(ve.getTerm()));
     }
 
     public void update() {

@@ -7,6 +7,7 @@ import utn.frc.dlc.core.io.management.PostPackManagement;
 import utn.frc.dlc.core.model.PostList;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class IntermediateCache extends Cache {
 
@@ -18,16 +19,18 @@ public class IntermediateCache extends Cache {
     }
 
     @Override
-    public Map<String, PostList> getPostPack(int file) {
+    public Optional<Map<String, PostList>> getPostPack(int file) {
 
         // TODO: Refactor here - 4. Hint: .map() in Optional. Change return to Optional also.
-        CachedPostPack c = get(file);
+        /*CachedPostPack c = get(file);
 
         if (c == null) {
             return null;
         }
 
-        return c.getPostPack();
+        return c.getPostPack();*/
+        return Optional.ofNullable(get(file))
+                .map(CachedPostPack::getPostPack);
     }
 
     @Override

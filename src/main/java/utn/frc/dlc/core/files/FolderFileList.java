@@ -16,11 +16,12 @@ import java.util.Iterator;
 public class FolderFileList implements Iterable<File> {
 
     // TODO: Refactor here - 2. Hint: Functional Interface anonymous call can be replaced with lambda.
-    FilenameFilter fileFilter = new FilenameFilter() {
+    /*FilenameFilter fileFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
             return name.toLowerCase().endsWith(".txt");
         }
-    };
+    };*/
+    FilenameFilter fileFilter = (dir, name) -> name.toLowerCase().endsWith(".txt");
 
     private final ArrayList<File> FOLDER_FILE_LIST;
 

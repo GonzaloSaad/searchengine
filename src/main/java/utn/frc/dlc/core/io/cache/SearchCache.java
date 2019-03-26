@@ -6,6 +6,7 @@ import utn.frc.dlc.core.model.PostList;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class SearchCache extends Cache {
 
@@ -19,7 +20,7 @@ public class SearchCache extends Cache {
     }
 
     @Override
-    public Map<String, PostList> getPostPack(int file) {
+    public Optional<Map<String, PostList>> getPostPack(int file) {
         CachedPostPack cachedPostPack;
         CachedPostPack storedPostPack;
 
@@ -30,7 +31,7 @@ public class SearchCache extends Cache {
         if (indexOfCache != null) {
             cachedPostPack = get(indexOfCache);
             cachedPostPack.markUsed();
-            return cachedPostPack.getPostPack();
+            return Optional.ofNullable(cachedPostPack.getPostPack());
         }
 
 
@@ -48,18 +49,23 @@ public class SearchCache extends Cache {
 
 
 
-        return storedPostPack.getPostPack();
+        return Optional.ofNullable(storedPostPack.getPostPack());
+
     }
 
     private CachedPostPack getPostPackFromStorage(int file) {
 
         // TODO: Refactor here - 5. Hint: .ofNullable(), .map() and .orElseThrow() in Optional.
-        Map<String, PostList> postPack = PostPackManagement.getInstance().getPostPack(file);
+        /*Map<String, PostList> postPack = PostPackManagement.getInstance().getPostPack(file);
         if (postPack == null) {
             throw new IllegalStateException("The file was not found! Inconsistency in the model!");
         }
 
-        return new CachedPostPack(file, postPack);
+        return new CachedPostPack(file, postPack);*/
+
+        return Optional.ofNullable(PostPackManagement.getInstance().getPostPack(file))
+                .map(postPack -> new CachedPostPack(file, postPack))
+                .orElseThrow(() -> new IllegalStateException("The file was not found! Inconsistency in the model!"));
     }
 
     public int getLessUsedPostPackIndex() {
